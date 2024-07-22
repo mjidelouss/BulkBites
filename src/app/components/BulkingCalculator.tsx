@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { acme, angkor, audiowide, honk } from './fonts';
+import { acme, angkor, audiowide, cinzel, honk } from './fonts';
 
 interface Results {
   calories: number;
@@ -87,10 +87,12 @@ const BulkingCalculator: React.FC = () => {
         {results && (
           <div className="mt-4 p-4 bg-gray-200 dark:bg-gray-700 rounded animate-fade-in">
             <h2 className={` text-xl font-semibold text-center mb-2 text-gray-800 dark:text-white ${angkor.className} `}>Daily Intake:</h2>
-            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Calories: {results.calories}</p>
-            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Protein: {results.protein}g</p>
-            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Carbs: {results.carbs}g</p>
-            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Fat: {results.fat}g</p>
+            <div className='grid grid-cols-2 gap-2'>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className} `}>Calories =  <span className={` text-blue-400 ${cinzel.className}`}> {results.calories}</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className} `}>Protein =  <span className={` text-blue-400 ${cinzel.className}`}> {results.protein}g</span></p>
+            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Carbs =  <span className={` text-blue-400 ${cinzel.className}`}> {results.carbs}g</span></p>
+            <p className={` text-gray-700 dark:text-gray-300 ${acme.className} `}>Fat =  <span className={` text-blue-400 ${cinzel.className}`}> {results.fat}g</span></p>
+            </div>
           </div>
         )}
       </div>
