@@ -5,7 +5,7 @@ import BulkingCalculator from './components/BulkingCalculator'
 export default function Home() {
   return (
     <ThemeProvider attribute="class">
-      <main className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <main className="min-h-screen dark:bg-black bg-white flex flex-col items-center justify-center p-4">
         <ThemeToggle />
         <BulkingCalculator />
       </main>
