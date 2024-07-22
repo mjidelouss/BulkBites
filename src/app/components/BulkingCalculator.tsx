@@ -9,6 +9,10 @@ interface Results {
   carbs: number;
   fat: number;
   dailyCaloriesSurplus: number;
+  sleepHours: number;
+  waterIntake: number;
+  mealFrequency: number;
+  workoutFrequency: number;
 }
 
 const BulkingCalculator: React.FC = () => {
@@ -31,22 +35,31 @@ const BulkingCalculator: React.FC = () => {
     }
 
     const baseCalories = weightNum * 15;
-    const proteinGrams = weightNum * 2;
-    const carbGrams = (baseCalories * 0.5) / 4;
-    const fatGrams = (baseCalories * 0.25) / 9;
+    const baseProteinGrams = weightNum * 2;
+    const baseCarbGrams = (baseCalories * 0.5) / 4;
+    const baseFatGrams = (baseCalories * 0.25) / 9;
 
-    // Calculate daily calorie surplus needed for desired weight gain
-    const totalCaloriesSurplus = desiredGainNum * 7700; // Approximate calories per kg of body weight
-    const dailyCaloriesSurplus = totalCaloriesSurplus / (durationNum * 7); // Convert weeks to days
+    const totalCaloriesSurplus = desiredGainNum * 7700;
+    const dailyCaloriesSurplus = totalCaloriesSurplus / (durationNum * 7);
+
+    // Adjust protein intake based on calorie surplus
+    const additionalProtein = (dailyCaloriesSurplus * 0.3) / 4; // 30% of surplus calories from protein
+    const bulkingProtein = Math.round(baseProteinGrams + additionalProtein);
 
     const bulkingCalories = Math.round(baseCalories + dailyCaloriesSurplus);
+    const bulkingCarbs = Math.round(baseCarbGrams + (dailyCaloriesSurplus * 0.5) / 4);
+    const bulkingFat = Math.round(baseFatGrams + (dailyCaloriesSurplus * 0.2) / 9);
 
     setResults({
       calories: bulkingCalories,
-      protein: Math.round(proteinGrams),
-      carbs: Math.round(carbGrams + (dailyCaloriesSurplus * 0.5) / 4), // Adjust carbs for surplus
-      fat: Math.round(fatGrams + (dailyCaloriesSurplus * 0.5) / 9), // Adjust fat for surplus
+      protein: bulkingProtein,
+      carbs: bulkingCarbs,
+      fat: bulkingFat,
       dailyCaloriesSurplus: Math.round(dailyCaloriesSurplus),
+      sleepHours: 8,
+      waterIntake: Math.round(weightNum * 0.033 * 10) / 10, // 33ml per kg of body weight, rounded to 1 decimal
+      mealFrequency: 5,
+      workoutFrequency: 4
     });
   };
 
@@ -102,15 +115,19 @@ const BulkingCalculator: React.FC = () => {
         Reset
       </button>
       {results && (
-        <div className="mt-4 p-4 bg-gray-200 dark:bg-gray-700 rounded animate-fade-in">
-          <h2 className={`text-xl font-semibold text-center mb-2 text-gray-800 dark:text-white ${angkor.className}`}>Daily Intake:</h2>
+        <div className="mt-4 p-5 bg-gray-200 dark:bg-gray-700 rounded animate-fade-in">
+          <h2 className={`text-xl font-semibold text-center mb-2 text-gray-800 dark:text-white ${angkor.className}`}>Daily Plan</h2>
           <div className='grid grid-cols-2 gap-2'>
             <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Calories = <span className={`text-blue-400 ${cinzel.className}`}>{results.calories}</span></p>
             <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Protein = <span className={`text-blue-400 ${cinzel.className}`}>{results.protein}g</span></p>
             <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Carbs = <span className={`text-blue-400 ${cinzel.className}`}>{results.carbs}g</span></p>
             <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Fat = <span className={`text-blue-400 ${cinzel.className}`}>{results.fat}g</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Calorie Surplus = <span className={`text-blue-400 ${cinzel.className}`}>{results.dailyCaloriesSurplus}</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Sleep = <span className={`text-blue-400 ${cinzel.className}`}>{results.sleepHours} hours</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Water Intake = <span className={`text-blue-400 ${cinzel.className}`}>{results.waterIntake} liters</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Meal Frequency = <span className={`text-blue-400 ${cinzel.className}`}>{results.mealFrequency} meals/day</span></p>
+            <p className={`text-gray-700 dark:text-gray-300 ${acme.className}`}>Workouts = <span className={`text-blue-400 ${cinzel.className}`}>{results.workoutFrequency} times/week</span></p>
           </div>
-          <p className={`mt-4 text-gray-700 dark:text-gray-300 ${acme.className}`}>Daily Calorie Surplus =  <span className={`text-blue-400 ${cinzel.className}`}>{results.dailyCaloriesSurplus}</span></p>
         </div>
       )}
     </div>
