@@ -73,7 +73,7 @@ const BulkingCalculator: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <div className="bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-md w-96 transition-colors duration-300">
+    <div className="w-2/5 bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-md w-96 transition-colors duration-300">
       <h1 className={`text-6xl font-bold text-center mb-4 text-gray-800 dark:text-white ${honk.className}`}>Bulking Bites</h1>
       <div className="mb-4">
         <label className={`block text-gray-700 dark:text-gray-300 mb-2 ${audiowide.className}`}>Current Weight (kg):</label>
